@@ -4,4 +4,4 @@ COPY . .
 
 RUN gcc -o main main.c
 
-CMD [ "./main" ]
+CMD [ "./main", "./magic.sh" ]
