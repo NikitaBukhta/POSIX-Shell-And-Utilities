@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Write a program in C, which prints the value of MY_VAR environment variable . 
+// If `-o file` option is specified, the value is printed to a file, otherwise to STDOUT. 
+// If MY_VAR is not set, an error message is written to STDERR, and the program ends up 
+// with a code `123`. If internal errors occur (e.g., no write rights to a directory), 
+// the program terminates with a code `1`.
+
 int main(int argc, char** argv, char** envp)
 {
     FILE *outputFile;

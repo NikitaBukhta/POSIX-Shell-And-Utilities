@@ -1,0 +1,7 @@
+Use
+    SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+to get directory where is bash script contains
+------------------------------------------------------------------------------------
+Use
+    $(cut -d "=" -f2- <<< "$(grep VAR_NAME= "${SCRIPT_DIR}"/.my-settings.txt)")
+to get var value from .my-settings

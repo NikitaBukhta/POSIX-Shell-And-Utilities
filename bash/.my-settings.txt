@@ -1,0 +1,5 @@
+PATH=/Users/nikitabukhta/Documents/POSIX/Project_1/bash
+APP_NAME=POSIX Application
+INST_DATADIR=/Users/nikitabukhta/Documents/POSIX/Project_1/bash/..
+PKG_INSTALL_ROOT=/Users/nikitabukhta/Documents
+ARCHIVE_NAME=POSIX Application_2022-03-18-19-51-33-cc.tar.gz
