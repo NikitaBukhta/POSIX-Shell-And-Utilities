@@ -13,6 +13,12 @@ of the string in *.c files, output all extensions in directory. What is more,
 I made the script that can change var value in txt file. So... You can see these
 in this project.
 
+What the folders contain?
+
+bash - dir with all bash scripts. Also there is README where you also can know how to install
+    app. And there is some tips for developers.
+src - dir with *.c files
+
 How to Install and Run the Project
 
 When you have installed the archive, just make the next steps:
