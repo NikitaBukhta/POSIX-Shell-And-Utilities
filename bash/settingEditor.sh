@@ -3,7 +3,7 @@
 # set standard values for:
 #   PATH                - where is bash scripts;
 #   APP_NAME            - name of Application;
-#   INST_DATADIR        - where is our app archive;
+#   INST_DATADIR        - app archive location;
 #   PKG_INSTALL_ROOT    - where we must to install application;
 setStandartSettings()
 {
