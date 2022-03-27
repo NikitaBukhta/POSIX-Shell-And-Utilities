@@ -44,12 +44,48 @@ function copyFilesFromFolder()
     return 0
 }
 
+# change moving file extension
+#
+# $1 - new file extension
+function extensionCommand()
+{
+    MOVING_FILE_EXTENSION="${1}"
+}
+
+# set new DATADIR value
+#
+# $1 - directory you want to set
+function fromCommand()
+{
+    local allFolders
+    local HOME_DIRECTORY_CHECKED
+
+    allFolders=$(tr '/' ' ' <<< "$1")
+    # we haven't gone over the home directory, so we have 
+    # set it to 0 in order to cd the HOME dir
+    HOME_DIRECTORY_CHECKED=0
+    for folder in ${allFolders}; do
+        if [[ ! -e ${folder} ]]; then
+            # if that is part of home directory and we haven't gone from all the way yet
+            if [[ "${HOME}" = *${folder}* && $HOME_DIRECTORY_CHECKED -eq 0 ]]; then
+                cd "${HOME}" || exit 1
+                continue
+            elif [[ ! -e $folder ]]; then
+                HOME_DIRECTORY_CHECKED=1
+            fi
+        fi
+
+        cd "${folder}" || exit 1
+    done
+    
+    DATADIR=${1}
+}
+
 # output brief of script
 function helpCommand()
 {
     echo "./copyingFilesFromFolder.sh [option_1] [value] [option_2] [value_2]"
-    echo "This script help you to copy certain files from one folder to another. " + 
-        "By default we have the next settings:"
+    echo "This script help you to copy certain files from one folder to another. By default we have the next settings:"
     echo "DATADIR: ${DATADIR}"
     echo "    That is a files location"
     echo "PKG_MOVING_ROOT: ${PKG_MOVING_ROOT}"
@@ -66,14 +102,12 @@ function helpCommand()
     echo "    --help -- the same as -h"
     echo "    -r -- check subdirectories for containing files"
     echo "    --recursion -- the same as -r"
-    echo "    -t -- to which directory you want to copy files. If this directory is not " + 
-        "exits, it will be created"
+    echo "    -t -- to which directory you want to copy files. If this directory is not exits, it will be created"
     echo "    --to - the same as -t"
     echo "-----------------------------------"
     echo "Errors:"
-    echo "    1 - cannot oopen the directory."
+    echo "    1 - cannot open the directory."
 }
-
 # set new PKG_MOVING_ROOT value
 #
 # $1 - directory you want to set
@@ -99,7 +133,6 @@ function toCommand()
         fi
 
         cd "${folder}" || exit 1
-        echo "PWD: $PWD"
     done
     
     PKG_MOVING_ROOT=${1}
@@ -127,7 +160,13 @@ function checkOptions()
 
         case "$option" in
             -e | --extension)
-                echo "Hello extinsion!"
+                # if we hove found this option in the previous loop;
+                if [[ -n "${OPTION_WITH_ARG_FOUND}" ]]; then
+                    extensionCommand "${ARG}"    # not released;
+                    OPTION_WITH_ARG_FOUND=""
+                else
+                    OPTION_WITH_ARG_FOUND=${option}
+                fi
                 ;;
             -f | --from)
                 # if we hove found this option in the previous loop;
@@ -174,7 +213,11 @@ function main()
 
 function test()
 {
-    #fromCommand "${HOME}/Documents/someDir1/test/test105"
-    helpCommand
+    checkOptions "${@}"
+    
+    echo "DATADIR = ${DATADIR}"
+    echo "PKG_MOVING_ROOT = ${PKG_MOVING_ROOT}"
+    echo "MOVING_FILE_EXTENSION = ${MOVING_FILE_EXTENSION}"
 }
-checkOptions "$@"
+
+test "$@"
