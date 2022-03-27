@@ -8,8 +8,8 @@ works with console. The output of this program is a meaning of enviroment
 variable MY_VAR that I have set with value "Hello world!"
 
 In addition to, I have made some bash scripts that make difference targets:
-move all header files to my-header directory, looking for first 20 occurrences
-of the string in *.c files, output all extensions in directory. What is more,
+move all files with specific extension to any directory you want; looking for first 20 occurrences
+of the string in *.c files; output all extensions of specific directory. What is more,
 I made the script that can change var value in txt file. So... You can see these
 in this project.
 
