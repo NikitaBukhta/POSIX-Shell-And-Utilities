@@ -1,7 +1,8 @@
 .DS_Store
 /src/main
+/src/temp.c
+/src/Test
 "POSIX Application"
 Result-output.txt
-/src/temp.c
-Test
-root.txt
+/Test
+/root.txt
