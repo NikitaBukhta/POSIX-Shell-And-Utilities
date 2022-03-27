@@ -48,8 +48,6 @@ function copyFilesFromFolder()
 function helpCommand()
 {
     echo "./copyingFilesFromFolder.sh [option_1] [value] [option_2] [value_2]"
-    echo "or"
-    echo echo "./copyingFilesFromFolder.sh [options] [value_1 value_2 ...]"
     echo "This script help you to copy certain files from one folder to another. " + 
         "By default we have the next settings:"
     echo "DATADIR: ${DATADIR}"
@@ -76,10 +74,10 @@ function helpCommand()
     echo "    1 - cannot oopen the directory."
 }
 
-# set new DATADIR value
+# set new PKG_MOVING_ROOT value
 #
 # $1 - directory you want to set
-function fromCommand()
+function toCommand()
 {
     local allFolders
     local HOME_DIRECTORY_CHECKED
@@ -104,7 +102,59 @@ function fromCommand()
         echo "PWD: $PWD"
     done
     
-    DATADIR=${1}
+    PKG_MOVING_ROOT=${1}
+}
+
+# check all options from all args to change standart settings;
+#
+# $[unpair_number] - option ($1, $3...)
+# $[pair_number] - option_arg ($2, $4...)
+function checkOptions()
+{
+    local ARG   # args for options
+    # which options user has choosen. This option is needed to write off
+    #   the value of options
+    local OPTION_WITH_ARG_FOUND=""
+    for option in "${@}"; do
+        ((++LOOPS_COUNT))
+
+        # if we have found option in previous loop, we write off the args of option
+        #   and give name of the last option
+        if [[ -n "${OPTION_WITH_ARG_FOUND}" ]]; then
+            ARG=${option}
+            option=${OPTION_WITH_ARG_FOUND}
+        fi
+
+        case "$option" in
+            -e | --extension)
+                echo "Hello extinsion!"
+                ;;
+            -f | --from)
+                # if we hove found this option in the previous loop;
+                if [[ -n "${OPTION_WITH_ARG_FOUND}" ]]; then
+                    fromCommand "${ARG}"    # not released;
+                    OPTION_WITH_ARG_FOUND=""
+                else
+                    OPTION_WITH_ARG_FOUND=${option}
+                fi
+                ;;
+            -h | --help)
+                helpCommand
+                ;;
+            -r | --recursion)
+                echo "Hello recursion!"
+                ;;
+            -t | --to)
+                # if we hove found this option in the previous loop;
+                if [[ -n "${OPTION_WITH_ARG_FOUND}" ]]; then
+                    toCommand "${ARG}"
+                    OPTION_WITH_ARG_FOUND=""
+                else
+                    OPTION_WITH_ARG_FOUND=${option}
+                fi
+                ;;
+        esac
+    done
 }
 
 function main()
@@ -127,4 +177,4 @@ function test()
     #fromCommand "${HOME}/Documents/someDir1/test/test105"
     helpCommand
 }
-test
+checkOptions "$@"
