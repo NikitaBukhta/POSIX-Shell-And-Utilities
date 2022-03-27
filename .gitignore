@@ -1,4 +1,5 @@
 .DS_Store
-main
+/src/main
 "POSIX Application"
 Result-output.txt
+/src/temp.c
