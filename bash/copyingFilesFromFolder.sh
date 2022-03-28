@@ -229,6 +229,7 @@ function main()
 {
     checkOptions "${@}"
 
+    # create new dir if user don't change standart;
     toCommand "${PKG_MOVING_ROOT}"
     
     echo "Current settings:"
